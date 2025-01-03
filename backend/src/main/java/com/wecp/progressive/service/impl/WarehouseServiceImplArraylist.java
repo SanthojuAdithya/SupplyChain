@@ -1,17 +1,19 @@
 package com.wecp.progressive.service.impl;
 
+import com.wecp.progressive.entity.Supplier;
+import com.wecp.progressive.entity.Warehouse;
+import com.wecp.progressive.service.WarehouseService;
+import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import com.wecp.progressive.entity.Warehouse;
-import com.wecp.progressive.service.WarehouseService;
+@Service
+public class WarehouseServiceImplArraylist implements WarehouseService {
 
-public class WarehouseServiceImplArraylist implements WarehouseService  {
+    private static List<Warehouse> warehouseList = new ArrayList<>();
 
-    private static List<Warehouse> warehouseList;
     @Override
     public List<Warehouse> getAllWarehouses() {
         return warehouseList;
@@ -20,19 +22,18 @@ public class WarehouseServiceImplArraylist implements WarehouseService  {
     @Override
     public int addWarehouse(Warehouse warehouse) {
         warehouseList.add(warehouse);
-        return warehouse.getCapacity();
+        return warehouseList.size();
     }
 
     @Override
     public List<Warehouse> getWarehousesSortedByCapacity() {
-        // Collections.sort(warehouseList);
-        // return warehouseList;
-        warehouseList.sort(Comparator.comparingInt(Warehouse::getCapacity));
-        return warehouseList;
+        List<Warehouse> sortedWarehouses = warehouseList;
+        sortedWarehouses.sort(Comparator.comparing(Warehouse::getCapacity)); // Sort by supplier name
+        return sortedWarehouses;
     }
 
-   @Override 
-     public void emptyArrayList() {
-        warehouseList=new ArrayList<>();
+    @Override
+    public void emptyArrayList() {
+        warehouseList = new ArrayList<>();
     }
 }
